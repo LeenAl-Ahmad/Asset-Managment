@@ -1,27 +1,25 @@
-#include "Resource.h"
-#include "AssetController.h"
+#include "Level.h"
 
-int main() {
-    AssetController::Instance().Initialize(10000000); // Allocate 10MB
+int main()
+{
+    Level* level = new Level();
+    level->AssignNonDefaultValues();
 
-    Resource::Pool = new ObjectPool<Resource>();
-    Resource* r1 = Resource::Pool->GetResource();
-    r1->AssignNonDefaultValues();
-
-    std::ofstream writeStream("resource.bin", std::ios::out | std::ios::binary);
-    r1->Serialize(writeStream);
+    ofstream writeStream("level.bin", ios::out | ios::binary);
+    level->Serialize(writeStream);
     writeStream.close();
+    cout << "Level To Save:";
+    level->ToString();
+    cout << endl;
 
-    std::cout << "*r1 values: ";
-    r1->ToString();
+    delete level;
 
-    Resource* r2 = Resource::Pool->GetResource();
-    std::ifstream readStream("resource.bin", std::ios::in | std::ios::binary);
-    r2->Deserialize(readStream);
+    Level* loadedLevel = new Level();
+    ifstream readStream("level.bin", ios::in | ios::binary);
+    loadedLevel->Deserialize(readStream);
     readStream.close();
+    cout << "Loaded Level:";
+    loadedLevel->ToString();
 
-    std::cout << "*r2 values: ";
-    r2->ToString();
-
-    delete Resource::Pool;
+    delete loadedLevel;
 }

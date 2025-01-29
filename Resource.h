@@ -14,15 +14,42 @@ public:
     // Methods
     virtual void Serialize(std::ostream& _stream);
     virtual void Deserialize(std::istream& _stream);
-    void AssignNonDefaultValues();
-    void ToString();
+    virtual void AssignNonDefaultValues();
+    virtual void ToString();
 
     //members
     static ObjectPool<Resource>* Pool;
 
 protected:
-    void SerializePointer(std::ostream& _stream, Resource* _p);
-    void DeserializePointer(std::istream& _stream, Resource*& _p);
+
+    template<class T>
+    void SerializePointer(std::ostream& _stream, T* _pointer)
+    {
+        byte exists = 1;
+        if (_pointer != nullptr)
+        {
+            _stream.write(reinterpret_cast<char*>(&exists), sizeof(byte));
+            _pointer->Serialize(_stream);
+        }
+        else
+        {
+            exists = 0;
+            _stream.write(reinterpret_cast<char*>(&exists), sizeof(byte));
+        }
+    }
+
+    template<class T>
+    void DeserializePointer(std::istream& _stream, T*& _pointer)
+    {
+        byte exists = 0;
+        _stream.read(reinterpret_cast<char*>(&exists), sizeof(exists));
+        if (exists == 1)
+        {
+            _pointer = T::Pool->GetResource();
+            _pointer->Deserialize(_stream);
+        }
+    }
+
     void SerializeAsset(std::ostream& _s, Asset* _a);
     void DeserializeAsset(std::istream& _s, Asset*& _a);
 

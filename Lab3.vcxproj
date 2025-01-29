@@ -130,20 +130,26 @@
     <ClInclude Include="Asset.h" />
     <ClInclude Include="AssetController.h" />
     <ClInclude Include="FileController.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="objPool.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Serializable.h" />
     <ClInclude Include="Singleton.h" />
+    <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="StackAllocator.h" />
     <ClInclude Include="StandardInclude.h" />
+    <ClInclude Include="Unit.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Asset.cpp" />
     <ClCompile Include="AssetController.cpp" />
     <ClCompile Include="FileController.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Resource.cpp" />
+    <ClCompile Include="SoundEffect.cpp" />
     <ClCompile Include="StackAllocator.cpp" />
+    <ClCompile Include="Unit.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

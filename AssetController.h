@@ -13,6 +13,7 @@ public:
 	virtual ~AssetController();
 
 	void Initialize(int _sS);
+	void Clear();
 	Asset* GetAsset(string _g);
 
 	static StackAllocator* Stack;

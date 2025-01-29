@@ -10,9 +10,8 @@ int main()
     writeStream.close();
     cout << "Level To Save:";
     level->ToString();
-    cout << endl;
-
     delete level;
+    cout << endl;
 
     Level* loadedLevel = new Level();
     ifstream readStream("level.bin", ios::in | ios::binary);

@@ -131,6 +131,8 @@
     <ClInclude Include="AssetController.h" />
     <ClInclude Include="FileController.h" />
     <ClInclude Include="objPool.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="Serializable.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="StackAllocator.h" />
     <ClInclude Include="StandardInclude.h" />
@@ -140,6 +142,7 @@
     <ClCompile Include="AssetController.cpp" />
     <ClCompile Include="FileController.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Resource.cpp" />
     <ClCompile Include="StackAllocator.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

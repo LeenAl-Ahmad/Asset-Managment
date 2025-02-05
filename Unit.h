@@ -3,6 +3,7 @@
 
 #include "Resource.h"
 #include "SoundEffect.h"
+#include "FileChunk.h"
 
 class Unit : public Resource
 {

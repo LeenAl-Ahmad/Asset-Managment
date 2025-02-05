@@ -14,7 +14,7 @@ public:
 
 	//Methods 
 	virtual void Serialize(std::ostream& _s);
-	virtual void Deeserialize(std::istream& _s);
+	virtual void Deserialize(std::istream& _s);
 	virtual void ToString();
 	virtual void AssignNonDefaultValues();
 

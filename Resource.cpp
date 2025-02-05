@@ -44,10 +44,4 @@ void Resource::DeserializeAsset(std::istream& _stream, Asset*& _asset)
     }
 }
 
-void Resource::Serialize(std::ostream& _stream) {
-    
-}
 
-void Resource::Deserialize(std::istream& _stream) {
-    
-}

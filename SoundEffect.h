@@ -2,7 +2,6 @@
 #define SOUND_EFFECT_H
 
 #include "Resource.h"
-#include "Asset.h"
 
 class SoundEffect : public Resource
 {

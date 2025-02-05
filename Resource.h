@@ -12,8 +12,8 @@ public:
     virtual ~Resource();
 
     // Methods
-    virtual void Serialize(std::ostream& _stream);
-    virtual void Deserialize(std::istream& _stream);
+    virtual void Serialize(std::ostream& _stream) {}
+    virtual void Deserialize(std::istream& _stream){}
     virtual void AssignNonDefaultValues();
     virtual void ToString();
 

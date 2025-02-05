@@ -41,7 +41,6 @@ public:
 
     void ReleaseResource(T* _object)
     {
-        
         m_available.push_back(_object);
     }
 

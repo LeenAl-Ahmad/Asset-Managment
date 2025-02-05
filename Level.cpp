@@ -9,6 +9,7 @@ Level::Level() {
     m_mapSizeY = 0;
     m_gameTime = 0.0f;
     m_unit.clear();
+    m_file = nullptr;
 }
 
 Level::~Level() {

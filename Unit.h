@@ -2,7 +2,6 @@
 #define UNIT_H
 
 #include "Resource.h"
-#include "SoundEffect.h"
 #include "FileChunk.h"
 
 class Unit : public Resource
@@ -23,7 +22,7 @@ public:
 
 private:
     // Members
-    SoundEffect* m_soundEffect;
+    FileChunk* m_file;
 };
 
 #endif // UNIT_H

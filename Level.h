@@ -16,9 +16,12 @@ public:
     void AssignNonDefaultValues() override;
 
 private:
-    //
-    
-    FileChunk* m_file;
+    // Members
+    int m_mapSizeX;
+    int m_mapSizeY;
+    float m_gameTime;
+    vector<FileChunk*> m_unit;
+    // And other interesting level members
 };
 
 #endif // LEVEL_H

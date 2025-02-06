@@ -12,11 +12,11 @@ public:
 	Asset* GetChunk() { return m_chunk; }
 	void SetChunk(Asset* _p) { m_chunk = _p; }
 
-	//Methods 
-	virtual void Serialize(std::ostream& _s);
-	virtual void Deserialize(std::istream& _s);
-	virtual void ToString();
-	virtual void AssignNonDefaultValues();
+	// Methods
+	void Serialize(std::ostream& _stream) override;
+	void Deserialize(std::istream& _stream) override;
+	void ToString() override;
+	void AssignNonDefaultValues() override;
 
 	static ObjectPool<FileChunk>* Pool;
 

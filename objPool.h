@@ -41,6 +41,7 @@ public:
 
     void ReleaseResource(T* _object)
     {
+        cout << "Releasing pool object: " << typeid(T).name() << endl;
         m_available.push_back(_object);
     }
 

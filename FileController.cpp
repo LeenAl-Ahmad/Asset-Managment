@@ -35,22 +35,21 @@ int FileController::GetFileSize(string _filePath)
 
 bool FileController::ReadFile(string _f, unsigned char* _buffer, unsigned int _buffersize)
 {
+    if (_buffer == nullptr) {
+        std::cerr << "Buffer is null." << std::endl;
+        return false;
+    }
+
     m_handle = nullptr;
     m_readSuccess = false;
     M_ASSERT(fopen_s(&m_handle, _f.c_str(), "rb") == 0, "Could not open file.");
     if (m_handle != nullptr)
     {
         M_ASSERT(fread(_buffer, 1, _buffersize, m_handle) == _buffersize, "All bytes not read from file.");
-        M_ASSERT(ferror(m_handle) == 0, "Error reading from file.");
         M_ASSERT(fclose(m_handle) == 0, "Could not close file.");
         m_readSuccess = true;
     }
-    if (m_thread.joinable())
-    {
-        m_thread.detach();
-    }
     return m_readSuccess;
-
 }
 
 void FileController::ReadFileAsync(string _f, unsigned char* _b, unsigned int _buffersize)

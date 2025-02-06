@@ -10,16 +10,15 @@ Level::~Level() {
     //
     // Clean up FileChunk
     if (m_file) {
-        delete m_file;
+        FileChunk::Pool->ReleaseResource(m_file); // Release FileChunk back to the pool
     }
-    //
     AssetController::Instance().Clear(); // Free 10MB
 }
 
 void Level::AssignNonDefaultValues() {
     //
     // Create and assign a default FileChunk
-    m_file = new FileChunk();
+    m_file = FileChunk::Pool->GetResource();
     m_file->AssignNonDefaultValues();
     
     Resource::AssignNonDefaultValues();

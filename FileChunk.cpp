@@ -1,6 +1,6 @@
 #include "FileChunk.h"
 
-ObjectPool<FileChunk>* FileChunk::Pool;
+ObjectPool<FileChunk>* FileChunk::Pool = new ObjectPool<FileChunk>();
 
 FileChunk::FileChunk()
 {
@@ -14,7 +14,7 @@ FileChunk::~FileChunk()
 
 void FileChunk::AssignNonDefaultValues()
 {
-	m_chunk = AssetController::Instance().GetAsset("../Assets/FileChunk/Chunk0.bin");
+	m_chunk = AssetController::Instance().GetAsset("C:/Users/leana/source/repos/Lab3/Assets/FileChunk/Chunk0.bin");
 	Resource::AssignNonDefaultValues();
 }
 

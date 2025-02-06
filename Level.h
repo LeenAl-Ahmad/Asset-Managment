@@ -1,7 +1,6 @@
 #ifndef LEVEL_H
 #define LEVEL_H
 
-#include "Unit.h"
 #include "FileChunk.h"
 
 class Level : public Resource {
@@ -17,11 +16,7 @@ public:
     void AssignNonDefaultValues() override;
 
 private:
-    // Members
-    int m_mapSizeX;
-    int m_mapSizeY;
-    float m_gameTime;
-    vector<Unit*> m_unit;
+    //
     
     FileChunk* m_file;
 };

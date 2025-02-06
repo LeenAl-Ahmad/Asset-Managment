@@ -1,23 +1,23 @@
 #include "FileChunk.h"
 #include "FileController.h"
 
-ObjectPool<FileChunk>* FileChunk::Pool = nullptr;
+ObjectPool<FileChunk>* FileChunk::Pool;
 
 FileChunk::FileChunk()
 {
-    cout << "Creating new pool object: class FileChunk" << endl;
+    
 }
 
 FileChunk::~FileChunk() {}
 
-void FileChunk::AssignNonDefaultValues() {
-    for (int i = 0; i < 7; i++) {
-        std::string chunkPath = "C:/Users/leana/source/repos/Lab3/Assets/FileChunk/chunk" + std::to_string(i) + ".bin";
-        std::cout << "Loading chunk: " << chunkPath << std::endl;
+void FileChunk::AssignNonDefaultValues(int i ) {
+    
+    std::string chunkPath = "C:/Users/leana/source/repos/Lab3/Assets/FileChunk/chunk" + std::to_string(i) + ".bin";
 
-        // Allocate new Asset from pool
-        Asset* chunkAsset = Asset::Pool->GetResource();
-        std::cout << "Creating new pool object: class Asset" << endl;
+    // Check if asset exists before allocating
+    Asset* chunkAsset = GetChunk(i);
+    if (!chunkAsset) {
+        chunkAsset = Asset::Pool->GetResource();
 
         if (chunkAsset) {
             chunkAsset->SetGUID(chunkPath);
@@ -26,14 +26,17 @@ void FileChunk::AssignNonDefaultValues() {
 
             FileController::Instance().ReadFile(chunkPath, chunkAsset->GetData(), chunkAsset->GetDataSize());
 
-            std::cout << "Allocating asset " << chunkPath << std::endl;
-
-            m_chunks.push_back(chunkAsset); // Store in vector
+            std::cout << "Allocating asset chunk" << i << ".bin" << std::endl;
+            SetChunk(i, chunkAsset);
         }
         else {
             std::cerr << "Failed to allocate asset for chunk: " << chunkPath << std::endl;
         }
     }
+    else {
+        std::cout << "Asset already exists for chunk " << i << ".bin, skipping allocation" << std::endl;
+    }
+
     Resource::AssignNonDefaultValues();
 }
 

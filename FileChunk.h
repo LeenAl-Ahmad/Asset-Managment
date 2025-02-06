@@ -18,7 +18,7 @@ public:
 	void Serialize(std::ostream& _stream) override;
 	void Deserialize(std::istream& _stream) override;
 	void ToString() override;
-	void AssignNonDefaultValues() override;
+	void AssignNonDefaultValues(int i = 0);
 
 	static ObjectPool<FileChunk>* Pool;
 

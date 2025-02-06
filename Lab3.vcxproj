@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClInclude Include="Asset.h" />
     <ClInclude Include="AssetController.h" />
+    <ClInclude Include="Command.h" />
     <ClInclude Include="FileChunk.h" />
     <ClInclude Include="FileController.h" />
     <ClInclude Include="Level.h" />
@@ -142,6 +143,7 @@
   <ItemGroup>
     <ClCompile Include="Asset.cpp" />
     <ClCompile Include="AssetController.cpp" />
+    <ClCompile Include="Command.cpp" />
     <ClCompile Include="FileChunk.cpp" />
     <ClCompile Include="FileController.cpp" />
     <ClCompile Include="Level.cpp" />

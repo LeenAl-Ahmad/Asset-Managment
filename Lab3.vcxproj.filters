@@ -42,12 +42,6 @@
     <ClInclude Include="Serializable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SoundEffect.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Unit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Level.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -72,12 +66,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Resource.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundEffect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Unit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Level.cpp">

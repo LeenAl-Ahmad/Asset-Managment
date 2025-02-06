@@ -9,8 +9,10 @@ public:
 	FileChunk();
 	virtual ~FileChunk();
 
-	Asset* GetChunk() { return m_chunk; }
-	void SetChunk(Asset* _p) { m_chunk = _p; }
+	// Getters & Setters
+	Asset* GetChunk(size_t index);
+	void SetChunk(size_t index, Asset* _p);
+	std::vector<Asset*>& GetChunks();
 
 	// Methods
 	void Serialize(std::ostream& _stream) override;
@@ -20,8 +22,8 @@ public:
 
 	static ObjectPool<FileChunk>* Pool;
 
-	private:
-		Asset* m_chunk;
+private:
+	std::vector<Asset*> m_chunks;
 };
 
-#endif //FILECHUNK_H
+#endif // FILECHUNK_H

@@ -1,114 +1,61 @@
 #include <iostream>
 #include "Command.h"
-#include "BaseCommand.h"
-#include "FileChunk.h"
 #include "CommandChunk.h"
 
-class Quit : public BaseCommand 
-{
-public:
-	Quit() {}
-
-};
-
-class Save : public BaseCommand 
-{
-public:
-	Save() {}
-	virtual void Execute() { std::cout << "Level Saved: LEVEL\n"; }
-};
-
-class Load : public BaseCommand 
-{
-public:
-	Load() {}
-	virtual void Execute() { std::cout << "Loaded Level: LEVEL\n"; }
-};
-
-class Undo : public BaseCommand 
-{
-public:
-	Undo() {}
-};
-
-class Redo : public BaseCommand 
-{
-public:
-	Redo() {}
-};
-
-class Create : public BaseCommand 
-{
-public:
-	Create() {}
-	virtual void Execute() { std::cout << "Executing: CommandCreateImageBuffer\n"; }
-};
-
-class Delete : public BaseCommand 
-{
-public:
-	Delete() {}
-	virtual void Execute() { std::cout << "Executing: CommandDeleteImageBuffer\n"; }
-};
-
-class Add : public BaseCommand 
-{
-public:
-	Add() {}
-	virtual void Execute() { std::cout << "Executing: CommandAddChunk\n"; }
-};
-
-class Remove : public BaseCommand 
-{
-public:
-	Remove() {}
-};
-
-Command::Command()
-{
-	m_file = new FileChunk();
+Command::Command() {
+    m_file = new FileChunk();
 }
 
-Command ::~Command()
-{
-	delete m_file;
+Command::~Command() {
+    delete m_file;
+    for (BaseCommand* cmd : m_commands) delete cmd;
+    for (BaseCommand* cmd : m_undoneCommands) delete cmd;
 }
 
-void Command::HandleInput(std::string _b)
-{
-	CommandChunk* moveCom = nullptr;
-	if (_b == "Q") moveCom = new CommandChunk(m_file);
-	else if (_b == "S")  moveCom = new CommandChunk(m_file);
-	else if (_b == "L")  moveCom = new CommandChunk(m_file);
-	else if (_b == "Z")  moveCom = new CommandChunk(m_file);
-	else if (_b == "Y")  moveCom = new CommandChunk(m_file);
-	else if (_b == "C")  moveCom = new CommandChunk(m_file);
-	else if (_b == "D")  moveCom = new CommandChunk(m_file);
-	else if (_b == "A")  moveCom = new CommandChunk(m_file);
-	else if (_b == "R")  moveCom = new CommandChunk(m_file);
+void Command::HandleInput(const std::string& _b, std::vector<FileChunk*>& unitVector) 
+{  
+    CommandChunk* moveCom = nullptr;
 
-	if (moveCom != nullptr)
-	{
-		moveCom->Execute();
-		m_commands.push_back(moveCom);
-	}
+    if (_b == "A" || "a"){}
+    else if (_b == "S" || "s"){}
+    else if (_b == "L" || "l"){}
+    else if (_b == "Z" || "z") Undo();
+    else if (_b == "Y" || "y") Redo();
+    else if (_b == "C" || "c"){}
+    else if (_b == "D" || "d") {}
+    else if (_b == "A" || "a") moveCom = new CommandChunk(m_file, unitVector);
+    else if (_b == "R" || "r") {}
+    else {
+        std::cerr << "Invalid command or not implemented.\n";
+        return;
+    }
+
+    if (moveCom) {
+        moveCom->Execute();
+        m_commands.push_back(moveCom);
+    }
 }
 
-void Command::Undo()
-{
-	BaseCommand* lastCommand = m_commands.back();
-	lastCommand->Undo();
-	delete lastCommand;
-	m_commands.pop_back();
-	m_undoneCommands.push_back(lastCommand);
+void Command::Undo() {
+    if (m_commands.empty()) {
+        std::cerr << "Nothing to undo.\n";
+        return;
+    }
+
+    BaseCommand* lastCommand = m_commands.back();
+    lastCommand->Undo();
+    m_commands.pop_back();
+    m_undoneCommands.push_back(lastCommand);
 }
 
-void Command::Redo()
-{
-	if (!m_undoneCommands.empty()) {
-		BaseCommand* lastUndone = m_undoneCommands.back();
-		lastUndone->Execute();
-		m_undoneCommands.pop_back();
-		m_commands.push_back(lastUndone);
-	}
+void Command::Redo() {
+    if (m_undoneCommands.empty()) {
+        std::cerr << "Nothing to redo.\n";
+        return;
+    }
+
+    BaseCommand* lastUndone = m_undoneCommands.back();
+    lastUndone->Execute();
+    m_undoneCommands.pop_back();
+    m_commands.push_back(lastUndone);
 }

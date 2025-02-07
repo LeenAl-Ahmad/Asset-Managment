@@ -11,7 +11,7 @@ class Command
 public:
 	Command();
 	~Command();
-	void HandleInput(std::string _b);
+	void HandleInput(const std::string& _b, std::vector<FileChunk*>& unitVector);
 	void Undo();
 	void Redo();
 private:

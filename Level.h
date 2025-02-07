@@ -16,6 +16,7 @@ public:
     void ToString() override;
     void AssignNonDefaultValues() override;
 
+    std::vector<FileChunk*>& GetUnitVector() { return m_unit; }
 private:
     // Members
     int m_mapSizeX;

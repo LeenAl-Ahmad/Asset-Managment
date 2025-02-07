@@ -1,34 +1,47 @@
 #pragma once
 #include "Command.h"
 #include "FileChunk.h"
+#include <vector>
 
 class CommandChunk : public BaseCommand
 {
 public:
-	CommandChunk(FileChunk* _u)
-	{
-		/*m_file = _u;
-		m_xBefore = 0;
-		m_yBefore = 0;
-		m_x = _x;
-		m_y = _y;*/
-	}
+    CommandChunk(FileChunk* _fileChunks, std::vector<FileChunk*>& _unitVector)
+        : m_fileChunks(_fileChunks), m_unitVector(_unitVector), m_chunk(nullptr) {
+    }
 
-	virtual void Execute()
-	{
-		/*m_xBefore = m_file->GetX();
-		m_yBefore = m_file->GetY();
-		m_file->MoveTo(m_x, m_y);*/
-	}
+    virtual void Execute() override
+    {
+        m_chunk = FileChunk::Pool->GetResource(); // Create a new FileChunk
+        if (m_chunk)
+        {
+            m_chunk->AssignNonDefaultValues(m_unitVector.size());
+            m_unitVector.push_back(m_chunk);
+            std::cout << "Executing: CommandAddChunk" << std::endl;
+        }
+        else
+        {
+            std::cerr << "Failed to allocate FileChunk" << std::endl;
+        }
+    }
 
-	virtual void Undo()
-	{
-		/*m_file->MoveTo(m_xBefore, m_yBefore);*/
-	}
+    virtual void Undo() override
+    {
+        if (!m_unitVector.empty())
+        {
+            FileChunk* lastChunk = m_unitVector.back();
+            m_unitVector.pop_back();
+            FileChunk::Pool->ReleaseResource(lastChunk);
+            std::cout << "Undo: Removed last FileChunk" << std::endl;
+        }
+        else
+        {
+            std::cerr << "No chunks to undo" << std::endl;
+        }
+    }
+
 private:
-	FileChunk* m_file;
-	int m_xBefore;
-	int m_yBefore;
-	int m_x;
-	int m_y;
+    FileChunk* m_fileChunks;
+    std::vector<FileChunk*>& m_unitVector;
+    FileChunk* m_chunk;
 };

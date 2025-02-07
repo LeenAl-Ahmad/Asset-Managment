@@ -1,4 +1,5 @@
 #include "Level.h"
+#include "Command.h"
 #include <iostream>
 #include <fstream>
 using namespace std;
@@ -13,7 +14,6 @@ int main()
     writeStream.close();
 
     level->ToString();
-    delete level;
     cout << endl;
 
     cout << "[Q]uit [S]ave Level [L]oad Level [Z] Undo [Y] Redo\n"
@@ -22,13 +22,17 @@ int main()
 
     Command* c = new Command();
     string input;
+
     while (true) {
         cout << "Enter command: ";
         cin >> input;
         if (input == "Q" || input == "q") break;
-        c->HandleInput(input);
+        
+        // Pass Level's m_unit vector to Command
+        c->HandleInput(input, level->GetUnitVector());
     }
-    delete c;
 
+    delete c;
+    delete level;
     return 0;
 }

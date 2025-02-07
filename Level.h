@@ -2,6 +2,7 @@
 #define LEVEL_H
 
 #include "FileChunk.h"
+#include "Command.h"
 
 class Level : public Resource {
 public:

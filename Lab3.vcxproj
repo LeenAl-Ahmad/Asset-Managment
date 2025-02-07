@@ -129,7 +129,9 @@
   <ItemGroup>
     <ClInclude Include="Asset.h" />
     <ClInclude Include="AssetController.h" />
+    <ClInclude Include="BaseCommand.h" />
     <ClInclude Include="Command.h" />
+    <ClInclude Include="CommandChunk.h" />
     <ClInclude Include="FileChunk.h" />
     <ClInclude Include="FileController.h" />
     <ClInclude Include="Level.h" />

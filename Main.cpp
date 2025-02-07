@@ -13,6 +13,7 @@ int main()
     delete level;
     cout << endl;
 
+    cout << "[Q]uit [S]ave Level [L]oad Level [Z] Undo [Y] Redo\n[C]reate image buffer [D]elete image buffer [A]dd chunk [R]emove chunk\nIndex (" << ")   Undo count (" << ")   Redo count(" << ")" << endl;
     /*Level* loadedLevel = new Level();
     ifstream readStream("level.bin", ios::in | ios::binary);
     loadedLevel->Deserialize(readStream);

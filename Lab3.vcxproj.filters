@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Core">
+      <UniqueIdentifier>{edce9460-8fec-4349-989d-812e65797eb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\Graphic">
+      <UniqueIdentifier>{dcb608bf-1b19-4cbe-8d30-33d5ad16b189}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{a0def0c6-f7ec-473f-ad4b-bf7444258c82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Graphic">
+      <UniqueIdentifier>{5d795b39-4ce7-4abb-8a49-1810a59fd1db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StandardInclude.h">
@@ -57,6 +69,15 @@
     <ClInclude Include="CommandChunk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Header Files\Core\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="TGAReader.h">
+      <Filter>Header Files\Core\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files\Core\Graphic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Asset.cpp">
@@ -85,6 +106,15 @@
     </ClCompile>
     <ClCompile Include="Command.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TGAReader.cpp">
+      <Filter>Source Files\Core\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files\Core\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Source Files\Core\Graphic</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

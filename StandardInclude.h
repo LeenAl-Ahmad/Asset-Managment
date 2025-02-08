@@ -2,6 +2,8 @@
 #ifndef STANDARD_INCLUDES_H
 #define STANDARD_INCLUDES_H
 
+#define SDL_MAIN_HANDLED
+
 // Include standard headers
 #include <string>
 #include <vector>
@@ -10,7 +12,8 @@
 #include <cinttypes>
 #include <stdio.h>
 #include <thread>
-#include<map>
+#include <map>
+#include <SDL.h>
 
 // Project headers
 #include "Singleton.h"

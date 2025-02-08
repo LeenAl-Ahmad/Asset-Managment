@@ -2,7 +2,7 @@
 #define LEVEL_H
 
 #include "FileChunk.h"
-#include "Command.h"
+
 
 class Level : public Resource {
 public:
@@ -23,7 +23,6 @@ private:
     int m_mapSizeY;
     float m_gameTime;
     vector<FileChunk*> m_unit;
-    // And other interesting level members
 };
 
 #endif // LEVEL_H

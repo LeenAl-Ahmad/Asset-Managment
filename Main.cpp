@@ -1,4 +1,4 @@
-#include "Level.h"
+
 #include "Command.h"
 #include <iostream>
 #include <fstream>
@@ -29,7 +29,7 @@ int main()
         if (input == "Q" || input == "q") break;
         
         // Pass Level's m_unit vector to Command
-        c->HandleInput(input, level->GetUnitVector());
+        c->HandleInput(input, level->GetUnitVector(), level);
     }
 
     delete c;

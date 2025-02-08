@@ -13,6 +13,7 @@ public:
 	Asset* GetChunk(size_t index);
 	void SetChunk(size_t index, Asset* _p);
 	std::vector<Asset*>& GetChunks();
+	size_t GetSize() const { return m_size; }
 
 	// Methods
 	void Serialize(std::ostream& _stream) override;
@@ -24,6 +25,8 @@ public:
 
 private:
 	std::vector<Asset*> m_chunks;
+	size_t m_size;
+	byte* m_data;
 };
 
 #endif // FILECHUNK_H

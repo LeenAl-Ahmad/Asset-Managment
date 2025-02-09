@@ -10,7 +10,13 @@ public:
 	virtual ~FileChunk();
 
 	// Getters & Setters
-	Asset* GetChunk(size_t index);
+	Asset* GetChunk(size_t index) {
+		if (index >= m_chunks.size()) {
+			return nullptr;  // Prevent out-of-bounds access
+		}
+		return m_chunks[index];
+	}
+	;
 	void SetChunk(size_t index, Asset* _p);
 	std::vector<Asset*>& GetChunks();
 	size_t GetSize() const { return m_size; }

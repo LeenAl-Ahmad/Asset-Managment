@@ -165,6 +165,18 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TGAReader.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\FileChunk\BigFile.tga" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\FileChunk\chunk0.bin" />
+    <None Include="Assets\FileChunk\chunk1.bin" />
+    <None Include="Assets\FileChunk\chunk2.bin" />
+    <None Include="Assets\FileChunk\chunk3.bin" />
+    <None Include="Assets\FileChunk\chunk4.bin" />
+    <None Include="Assets\FileChunk\chunk5.bin" />
+    <None Include="Assets\FileChunk\chunk6.bin" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

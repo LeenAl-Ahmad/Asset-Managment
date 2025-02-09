@@ -10,23 +10,31 @@ FileChunk::FileChunk()
 
 FileChunk::~FileChunk() {}
 
-void FileChunk::AssignNonDefaultValues(int i ) {
-    
+void FileChunk::AssignNonDefaultValues(int i) {
     std::string chunkPath = "C:/Users/leana/source/repos/Lab3/Assets/FileChunk/chunk" + std::to_string(i) + ".bin";
 
-    // Check if asset exists before allocating
+    if (m_chunks.size() <= i) {
+        m_chunks.resize(i + 1, nullptr);
+    }
+
     Asset* chunkAsset = GetChunk(i);
     if (!chunkAsset) {
         chunkAsset = Asset::Pool->GetResource();
-
         if (chunkAsset) {
             chunkAsset->SetGUID(chunkPath);
-            chunkAsset->SetDataSize(FileController::Instance().GetFileSize(chunkPath));
-            chunkAsset->SetData(AssetController::Stack->GetMemory(chunkAsset->GetDataSize()));
+            size_t dataSize = FileController::Instance().GetFileSize(chunkPath);
+            chunkAsset->SetDataSize(dataSize);
 
-            FileController::Instance().ReadFile(chunkPath, chunkAsset->GetData(), chunkAsset->GetDataSize());
+            byte* buffer = new byte[dataSize];  // Allocate correct type
+            if (!buffer) {
+                std::cerr << "Error: Memory allocation failed for chunk " << i << ".bin" << std::endl;
+                return;
+            }
+            chunkAsset->SetData(buffer);  // Assign buffer to Asset
 
-            std::cout << "Allocating asset chunk" << i << ".bin" << std::endl;
+            FileController::Instance().ReadFile(chunkPath, chunkAsset->GetData(), dataSize);
+
+            std::cout << "Allocating asset chunk " << i << ".bin" << std::endl;
             SetChunk(i, chunkAsset);
         }
         else {
@@ -39,6 +47,8 @@ void FileChunk::AssignNonDefaultValues(int i ) {
 
     Resource::AssignNonDefaultValues();
 }
+
+
 
 void FileChunk::Serialize(std::ostream& _stream) {
     for (auto& chunk : m_chunks) {
@@ -60,10 +70,6 @@ void FileChunk::ToString() {
         if (chunk) chunk->ToString();
     }
     Resource::ToString();
-}
-
-Asset* FileChunk::GetChunk(size_t index) {
-    return (index < m_chunks.size()) ? m_chunks[index] : nullptr;
 }
 
 void FileChunk::SetChunk(size_t index, Asset* _p) {

@@ -11,10 +11,10 @@ public:
 
 	// Getters & Setters
 	Asset* GetChunk(size_t index) {
-		if (index >= m_chunks.size()) {
-			return nullptr;  // Prevent out-of-bounds access
+		if (index < m_chunks.size()) {
+			return m_chunks[index];
 		}
-		return m_chunks[index];
+		return nullptr; 
 	}
 	;
 	void SetChunk(size_t index, Asset* _p);
@@ -26,9 +26,10 @@ public:
 	void Deserialize(std::istream& _stream) override;
 	void ToString() override;
 	void AssignNonDefaultValues(int i = 0);
+	void ClearChunks();
 
 	static ObjectPool<FileChunk>* Pool;
-
+	
 private:
 	std::vector<Asset*> m_chunks;
 	size_t m_size;

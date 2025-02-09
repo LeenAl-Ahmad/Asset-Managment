@@ -11,11 +11,11 @@ public:
     ObjectPool() {}
     ~ObjectPool()
     {
-        /*for (unsigned int count = 0; count < m_all.size(); count++)
+        for (unsigned int count = 0; count < m_all.size(); count++)
         {
             cout << "Deleting pool object: " << typeid(T).name() << endl;
             delete m_all[count];
-        }*/
+        }
         m_all.clear();
         m_available.clear();
     }
@@ -41,7 +41,7 @@ public:
 
     void ReleaseResource(T* _object)
     {
-        cout << "Releasing pool object: " << typeid(T).name() << endl;
+        cout << "Deleting pool object: " << typeid(T).name() << endl;
         m_available.push_back(_object);
     }
 

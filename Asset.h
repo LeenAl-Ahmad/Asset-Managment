@@ -22,6 +22,13 @@ public:
 	void ToString();
 	static ObjectPool<Asset>* Pool;
 
+	virtual void Serialize(std::ostream& _stream) {
+		// Serialize the Asset data (e.g., GUID, data size, etc.)
+		_stream.write(reinterpret_cast<char*>(&m_GUID), sizeof(m_GUID));
+		_stream.write(reinterpret_cast<char*>(&m_dataSize), sizeof(m_dataSize));
+		_stream.write(reinterpret_cast<char*>(m_data), m_dataSize);  // Assuming m_data is a pointer to the asset's binary data
+	}
+
 private:
 	string m_GUID;
 	int m_dataSize;

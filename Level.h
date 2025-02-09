@@ -17,11 +17,13 @@ public:
     void AssignNonDefaultValues() override;
 
     std::vector<FileChunk*>& GetUnitVector() { return m_unit; }
+    int index;
 private:
     // Members
     int m_mapSizeX;
     int m_mapSizeY;
     float m_gameTime;
+    
     vector<FileChunk*> m_unit;
 };
 

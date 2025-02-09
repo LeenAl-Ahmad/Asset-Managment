@@ -22,25 +22,27 @@ void FileChunk::AssignNonDefaultValues(int i) {
         chunkAsset = Asset::Pool->GetResource();
         if (chunkAsset) {
             chunkAsset->SetGUID(chunkPath);
+
             size_t dataSize = FileController::Instance().GetFileSize(chunkPath);
             chunkAsset->SetDataSize(dataSize);
 
-            byte* buffer = new byte[dataSize];  // Allocate correct type
+            byte* buffer = new byte[dataSize];
             if (!buffer) {
                 std::cerr << "Error: Memory allocation failed for chunk " << i << ".bin" << std::endl;
                 return;
             }
-            chunkAsset->SetData(buffer);  // Assign buffer to Asset
+            chunkAsset->SetData(buffer);
 
             FileController::Instance().ReadFile(chunkPath, chunkAsset->GetData(), dataSize);
 
             std::cout << "Allocating asset chunk " << i << ".bin" << std::endl;
-            SetChunk(i, chunkAsset);
+            SetChunk(i, chunkAsset);  // Assign the chunk directly without push_back
         }
         else {
             std::cerr << "Failed to allocate asset for chunk: " << chunkPath << std::endl;
         }
     }
+
     else {
         std::cout << "Asset already exists for chunk " << i << ".bin, skipping allocation" << std::endl;
     }
@@ -48,13 +50,25 @@ void FileChunk::AssignNonDefaultValues(int i) {
     Resource::AssignNonDefaultValues();
 }
 
-
-
 void FileChunk::Serialize(std::ostream& _stream) {
     for (auto& chunk : m_chunks) {
+        if (chunk == nullptr) {
+            std::cerr << "Error: Null chunk encountered during serialization." << std::endl;
+            return;
+        }
         SerializeAsset(_stream, chunk);
     }
+
     Resource::Serialize(_stream);
+}
+
+void FileChunk::ClearChunks() { 
+    for (Asset* asset : m_chunks) {
+        if (asset) {
+            Asset::Pool->ReleaseResource(asset);
+        }
+    }
+    m_chunks.clear();  // Clear after releasing
 }
 
 void FileChunk::Deserialize(std::istream& _stream) {
@@ -73,10 +87,12 @@ void FileChunk::ToString() {
 }
 
 void FileChunk::SetChunk(size_t index, Asset* _p) {
-    if (index < m_chunks.size())
+    if (index < m_chunks.size()) {
         m_chunks[index] = _p;
-    else
+    }
+    else {
         m_chunks.push_back(_p);
+    }
 }
 
 std::vector<Asset*>& FileChunk::GetChunks() {

@@ -38,33 +38,45 @@ void Level::AssignNonDefaultValues() {
     Resource::AssignNonDefaultValues();
 }
 
-
 void Level::Serialize(std::ostream& _stream) {
     _stream.write(reinterpret_cast<char*>(&m_mapSizeX), sizeof(m_mapSizeX));
     _stream.write(reinterpret_cast<char*>(&m_mapSizeY), sizeof(m_mapSizeY));
     _stream.write(reinterpret_cast<char*>(&m_gameTime), sizeof(m_gameTime));
-    int numberOfUnits = m_unit.size();
-    _stream.write(reinterpret_cast<char*>(&numberOfUnits), sizeof(numberOfUnits));
-    for (int count = 0; count < numberOfUnits; count++)
-    {
-        SerializePointer(_stream, m_unit[count]);
+
+    // Serialize each chunk's data
+    int numberOfChunks = m_unit.size();
+    _stream.write(reinterpret_cast<char*>(&numberOfChunks), sizeof(numberOfChunks));
+    for (FileChunk* chunk : m_unit) {
+        chunk->Serialize(_stream);  // Serialize chunk data
     }
-    Resource::Serialize(_stream);
 }
 
 void Level::Deserialize(std::istream& _stream) {
     _stream.read(reinterpret_cast<char*>(&m_mapSizeX), sizeof(m_mapSizeX));
     _stream.read(reinterpret_cast<char*>(&m_mapSizeY), sizeof(m_mapSizeY));
     _stream.read(reinterpret_cast<char*>(&m_gameTime), sizeof(m_gameTime));
-    
+
     int numberOfUnits;
+    
     _stream.read(reinterpret_cast<char*>(&numberOfUnits), sizeof(numberOfUnits));
-    for (int count = 0; count < numberOfUnits; count++)
-    {
-        FileChunk* unit;
-        DeserializePointer(_stream, unit);
+    index = numberOfUnits;
+    for (FileChunk* unit : m_unit) {
+        FileChunk::Pool->ReleaseResource(unit);
+    }
+    m_unit.clear();
+    
+
+    for (int count = 0; count < numberOfUnits; count++) {
+        FileChunk* unit = FileChunk::Pool->GetResource();  // Allocate from pool
+        if (!unit) {
+            cerr << "Failed to allocate FileChunk in Deserialize" << endl;
+            continue;
+        }
+
+        DeserializePointer(_stream, unit);  // Deserialize data into the new chunk
         m_unit.push_back(unit);
     }
+
     Resource::Deserialize(_stream);
 }
 

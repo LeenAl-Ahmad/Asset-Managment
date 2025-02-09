@@ -34,6 +34,18 @@ private:
 	std::vector<Asset*> m_chunks;
 	size_t m_size;
 	byte* m_data;
+
+	
+public:
+		size_t GetWidth() const { return m_width; }
+		size_t GetHeight() const { return m_height; }
+
+		void LoadMetadata();  // Reads width & height from chunk data
+private:
+		size_t m_width = 0;
+		size_t m_height = 0;
+	
+
 };
 
 #endif // FILECHUNK_H

@@ -49,56 +49,59 @@ void Command::HandleInput(const std::string& _b, std::vector<FileChunk*>& unitVe
         Redo();
     }
     else if (_b == "C" || _b == "c") {
-        if (unitVector.empty()) {
-            std::cerr << "No file chunks available.\n";
-            return;
-        }
+        size_t width = 400;  // Replace with actual width
+        size_t height = 360;  // Replace with actual height
+        size_t totalSize = width * height * 4;  // Assuming RGBA format (4 bytes per pixel)
 
-        // Calculate total size dynamically
-        size_t totalSize = 0;
-        for (const auto& chunk : unitVector) {
-            totalSize += chunk->GetSize();
-        }
-
-        // Allocate and initialize buffer
-        delete[] m_imageBuffer;  // Free previous buffer if exists
+        delete[] m_imageBuffer;
         m_imageBuffer = new uint8_t[totalSize]();
         m_imageSize = totalSize;
 
-        // Save buffer to NewImage.tga
+        std::cout << "Manually Set Image Buffer: " << width << "x" << height << " (" << totalSize << " bytes)\n";
+
+        // Save TGA with correct header
         std::ofstream outFile("C:/Users/leana/source/repos/lab3/Assets/NewImage.tga", std::ios::binary);
-        if (!outFile) {
-            std::cerr << "Error: Could not create NewImage.tga.\n";
-            return;
-        }
+        uint8_t tgaHeader[18] = {};
+        tgaHeader[2] = 2;  // Image type: Uncompressed true-color
+        tgaHeader[12] = width & 0xFF;
+        tgaHeader[13] = (width >> 8) & 0xFF;
+        tgaHeader[14] = height & 0xFF;
+        tgaHeader[15] = (height >> 8) & 0xFF;
+        tgaHeader[16] = 32;  // Bits per pixel
+
+        outFile.write(reinterpret_cast<char*>(tgaHeader), sizeof(tgaHeader));
         outFile.write(reinterpret_cast<char*>(m_imageBuffer), totalSize);
         outFile.close();
 
-        std::cout << "Image buffer created and saved as NewImage.tga.\n";
+        std::cout << " Image saved as NewImage.tga with manually set size.\n";
 
-        // Initialize Rendering
         AssetController::Instance().Initialize(10000000);
-        Renderer* renderer = &Renderer::Instance();
-        renderer->Initialize(800, 600);
+        Renderer* r = &Renderer::Instance();
+        r->Initialize(800, 600);
 
         Texture::Pool = new ObjectPool<Texture>();
         Texture* texture = Texture::Pool->GetResource();
-        if (texture) {
-            texture->Load("C:/Users/leana/source/repos/lab3/Assets/FileChunk/BigFile.tga");
-        }
-        else {
-            std::cerr << "Error: Failed to load texture.\n";
+        if (!texture) {
+            std::cerr << "Error: Failed to allocate texture.\n";
             return;
         }
 
+        texture->Load("C:/Users/leana/source/repos/lab3/Assets/NewImage.tga");
+
+        std::cout << " Rendering NewImage.tga...\n";
+
         while (m_sdlEvent.type != SDL_QUIT) {
             SDL_PollEvent(&m_sdlEvent);
-            renderer->SetDrawColor(Color(255, 0, 0, 255));
-            renderer->ClearScreen();
-            renderer->RenderTexture(texture, Point(10, 10));
-            SDL_RenderPresent(renderer->GetRenderer());
+            r->SetDrawColor(Color(255, 0, 0, 255));
+            r->ClearScreen();
+            r->RenderTexture(texture, Point(10, 10));
+            SDL_RenderPresent(r->GetRenderer());
         }
+
+        delete Texture::Pool;  // Clean up texture pool
     }
+
+
     else if (_b == "D" || _b == "d") {
         if (!m_imageBuffer) {
             std::cerr << "No image buffer to delete.\n";

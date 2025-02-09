@@ -98,3 +98,35 @@ void FileChunk::SetChunk(size_t index, Asset* _p) {
 std::vector<Asset*>& FileChunk::GetChunks() {
     return m_chunks;
 }
+
+void FileChunk::LoadMetadata() {
+    if (m_chunks.empty()) {
+        std::cerr << "Error: No chunk data available to read metadata.\n";
+        return;
+    }
+
+    std::ifstream file(m_chunks[0]->GetGUID(), std::ios::binary);
+    if (!file) {
+        std::cerr << "Error: Could not open chunk file to read metadata.\n";
+        return;
+    }
+
+    file.seekg(12, std::ios::beg);  // TGA width starts at byte 12
+
+    uint16_t width = 0, height = 0;
+    file.read(reinterpret_cast<char*>(&width), sizeof(width));
+    file.read(reinterpret_cast<char*>(&height), sizeof(height));
+
+    m_width = static_cast<size_t>(width);
+    m_height = static_cast<size_t>(height);
+
+    if (m_width == 0 || m_height == 0) {
+        std::cerr << "Error: Invalid width or height read from chunk metadata.\n";
+    }
+    else {
+        std::cout << "Chunk Metadata Loaded: Width = " << m_width << ", Height = " << m_height << "\n";
+    }
+
+    file.close();
+}
+
